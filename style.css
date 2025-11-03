@@ -1,0 +1,113 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  background: #f4f4f9;
+  color: #333;
+}
+
+header {
+  background: #4b6cb7;
+  color: #fff;
+  text-align: center;
+  padding: 1.2rem;
+}
+
+h1 {
+  margin: 0;
+}
+
+#book-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.book {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  transition: transform 0.2s ease;
+}
+
+.book:hover {
+  transform: scale(1.03);
+}
+
+.book img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
+
+.book .details {
+  padding: 15px;
+}
+
+.book h3 {
+  margin: 0 0 10px;
+}
+
+.book p {
+  margin: 5px 0;
+  font-size: 0.9rem;
+}
+
+.book button {
+  background: crimson;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.book button:hover {
+  background: darkred;
+}
+
+#add-book {
+  background: #fff;
+  margin: 20px;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+#add-book h2 {
+  margin-top: 0;
+}
+
+#bookForm input,
+#bookForm textarea,
+#bookForm button {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+#bookForm button {
+  background: #4b6cb7;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+#bookForm button:hover {
+  background: #395591;
+}
+
+footer {
+  text-align: center;
+  padding: 10px;
+  background: #4b6cb7;
+  color: white;
+  margin-top: 30px;
+}
