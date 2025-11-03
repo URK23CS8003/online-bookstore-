@@ -1,0 +1,309 @@
+!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>📚 eShelf Bookstore</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #0e0e10;
+      color: #e5e5e7;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+      transition: background 0.3s ease;
+    }
+
+    h1 {
+      color: #9b5de5;
+      margin-bottom: 25px;
+      font-weight: 600;
+      font-size: 2em;
+      letter-spacing: 0.5px;
+    }
+
+    .book-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 25px;
+      margin-top: 30px;
+      padding: 0 10px;
+    }
+
+    /* ---- Updated Card Styling ---- */
+    .book-card {
+      background: #161618;
+      border-radius: 14px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      transition: all 0.3s ease;
+      text-align: left;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 430px; /* uniform card height */
+    }
+
+    .book-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 8px 24px rgba(155, 93, 229, 0.2);
+    }
+
+    .book-cover {
+      width: 100%;
+      height: 200px;
+      border-radius: 10px;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-image: linear-gradient(135deg, #7c3aed, #9b5de5);
+    }
+
+    .book-details {
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      flex-grow: 1;
+    }
+
+    .book-card h3 {
+      color: #fff;
+      font-size: 1.1em;
+      margin-bottom: 6px;
+    }
+
+    .book-card p {
+      color: #c5c5c7;
+      margin: 6px 0;
+      font-size: 0.95em;
+      line-height: 1.4em;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 3; /* show max 3 lines */
+      -webkit-box-orient: vertical;
+    }
+
+    .book-card button {
+      background: #9b5de5;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 12px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      margin-top: auto;
+      align-self: center;
+    }
+
+    .book-card button:hover {
+      background: #7c3aed;
+      box-shadow: 0 0 10px rgba(124, 58, 237, 0.3);
+      transform: translateY(-2px);
+    }
+
+    /* ---- Cart Section ---- */
+    #cart {
+      margin-top: 50px;
+      background: #1a1a1d;
+      border: 1px solid #2a2a2e;
+      border-radius: 16px;
+      padding: 25px;
+      width: 60%;
+      margin-left: auto;
+      margin-right: auto;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      transition: all 0.3s ease;
+    }
+
+    #cart h2 {
+      color: #a78bfa;
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+
+    #cartItems li {
+      list-style: none;
+      margin: 10px 0;
+      background: #111113;
+      padding: 12px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 1px solid #2a2a2e;
+      color: #ddd;
+      transition: all 0.3s ease;
+    }
+
+    #cartItems li:hover {
+      background: #18181a;
+    }
+
+    #checkout {
+      background-color: #22c55e;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 16px;
+      margin-top: 20px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+
+    #checkout:hover {
+      background-color: #16a34a;
+      box-shadow: 0 0 12px rgba(34, 197, 94, 0.3);
+      transform: scale(1.05);
+    }
+
+    /* ---- Popup ---- */
+    #thankYouPopup {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(6px);
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .popup-content {
+      background: #1a1a1d;
+      border-radius: 20px;
+      padding: 30px;
+      text-align: center;
+      box-shadow: 0 0 20px rgba(155, 93, 229, 0.3);
+      color: #fff;
+      animation: pop 0.4s ease;
+    }
+
+    .popup-content h2 {
+      color: #a78bfa;
+      margin-bottom: 10px;
+    }
+
+    .popup-content p {
+      color: #d1d5db;
+    }
+
+    .popup-content button {
+      background-color: #9b5de5;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 15px;
+      margin-top: 15px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .popup-content button:hover {
+      background: #7c3aed;
+      box-shadow: 0 0 10px rgba(155, 93, 229, 0.4);
+      transform: scale(1.05);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes pop {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome to eShelf 📖</h1>
+
+  <div class="book-list" id="bookList"></div>
+
+  <div id="cart">
+    <h2>🛒 Your Cart</h2>
+    <ul id="cartItems"></ul>
+    <p><strong>Total:</strong> ₹<span id="total">0</span></p>
+    <button id="checkout" onclick="checkout()">Checkout ✅</button>
+  </div>
+
+  <!-- Thank You Popup -->
+  <div id="thankYouPopup">
+    <div class="popup-content">
+      <h2>🎉 Thank You for Your Purchase!</h2>
+      <p>Your books will be on your shelf soon 📚💫</p>
+      <button onclick="closePopup()">Continue Browsing</button>
+    </div>
+  </div>
+
+  <script>
+    const cart = [];
+    const totalElement = document.getElementById('total');
+    const cartItems = document.getElementById('cartItems');
+
+    function updateCart() {
+      cartItems.innerHTML = cart.map((item, index) => `
+        <li>
+          ${item.title} - ₹${item.price}
+          <button onclick="removeFromCart(${index})">❌</button>
+        </li>
+      `).join('');
+      totalElement.textContent = cart.reduce((sum, b) => sum + b.price, 0);
+    }
+
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      updateCart();
+    }
+
+    async function loadBooks() {
+      const res = await fetch('/api/books');
+      const books = await res.json();
+      const bookList = document.getElementById('bookList');
+      bookList.innerHTML = books.map(book => `
+        <div class="book-card">
+          <div class="book-cover" style="background-image: url('${book.cover || ''}'), linear-gradient(135deg, #7c3aed, #9b5de5);"></div>
+          <div class="book-details">
+            <div>
+              <h3>${book.title}</h3>
+              <p><strong>Author:</strong> ${book.author}</p>
+              <p><strong>Price:</strong> ₹${book.price}</p>
+              <p>${book.description}</p>
+            </div>
+            <button onclick='addToCart(${JSON.stringify(book)})'>Add to Cart 🛒</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function addToCart(book) {
+      cart.push(book);
+      updateCart();
+    }
+
+    function checkout() {
+      if (cart.length === 0) {
+        alert('Your cart is empty!');
+        return;
+      }
+      document.getElementById('thankYouPopup').style.display = 'flex';
+      cart.length = 0;
+      updateCart();
+    }
+
+    function closePopup() {
+      document.getElementById('thankYouPopup').style.display = 'none';
+    }
+
+    loadBooks();
+  </script>
+</body>
+</html>
